@@ -1,12 +1,36 @@
+const mongoose = require('mongoose');
+var validator = require('validator');
 
-const controller = require('../controllers/adminsignup');
+const adminSchema = new mongoose.Schema({
+    userame: {
+        type: String,
+    },
+    password:{
+        type:String,
 
-module.exports = (router) => {
-    
+    },
+    phone:{
+        type: Number,
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true,
+        
+    },
+    gender:{
+        type:String
+    },
+    role: {
+        type: String,
+        default: 'basic',
+        enum: ["basic", "supervisor", "admin"]
+       },
+       accessToken: {
+        type: String
+       }
+},
+{timestamps: true}
+)
 
-    router.post("/signUp", function (req, res) {
-        controller.signUp(req.body);
-    });
-
-  
-}
+module.exports = mongoose.model('Admin',adminSchema);
